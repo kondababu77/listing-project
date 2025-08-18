@@ -41,6 +41,8 @@ main().then(()=>{
     console.log('Connection failed');
 });
 
+
+
 const store = MongoStore.create({
     mongoUrl : dbURl,
     crypto :{
@@ -85,7 +87,11 @@ app.use((req,res,next)=>{
 
 
 
+app.get('/', wrapAsync(async (req, res, next) => {
+    let AllListings = await listing.find();
 
+    res.render('./listings/index.ejs', { AllListings });
+}));
 app.use("/listings", listings);
 app.use("/listings/:id", reviews);
 app.use("/",userRouter);
